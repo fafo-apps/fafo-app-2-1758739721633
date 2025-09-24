@@ -1,103 +1,82 @@
-import Image from "next/image";
+import Link from "next/link";
+import { menuItems } from "@/data/menu";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const featured = menuItems.filter((m) => m.category === "Burgers").slice(0, 3);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <div className="space-y-16">
+      {/* Hero */}
+      <section className="rounded-2xl bg-gradient-to-b from-yellow-50 to-white dark:from-zinc-900 dark:to-black border border-black/5 dark:border-white/10 p-8 sm:p-12">
+        <p className="uppercase tracking-widest text-xs text-black/60 dark:text-white/60">SmashBite Burgers</p>
+        <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold tracking-tight">
+          Crispy-edge smashburgers. Shakes. Fries.
+        </h1>
+        <p className="mt-4 text-balance text-black/70 dark:text-white/70 max-w-2xl">
+          Freshly smashed patties, melty cheese, and fluffy potato buns. Order for pickup or dine in today.
+        </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/menu" className="rounded-md bg-red-600 text-white px-4 py-2 hover:bg-red-700 transition">View Menu</Link>
+          <a href="tel:555-123-4567" className="rounded-md border border-black/10 dark:border-white/20 px-4 py-2 hover:bg-black/5 dark:hover:bg-white/10 transition">Call to Order</a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Featured Burgers */}
+      <section aria-labelledby="featured-heading" className="space-y-6">
+        <div className="flex items-end justify-between gap-4">
+          <h2 id="featured-heading" className="text-2xl font-bold">Customer Favorites</h2>
+          <Link href="/menu" className="text-sm underline hover:no-underline">See full menu →</Link>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {featured.map((item) => (
+            <article key={item.id} className="rounded-xl border border-black/10 dark:border-white/15 p-5 hover:shadow-sm transition">
+              <header className="flex items-start justify-between gap-3">
+                <h3 className="font-semibold text-lg">{item.name}</h3>
+                <span className="rounded-full bg-black/5 dark:bg-white/10 px-2 py-0.5 text-sm tabular-nums">${item.price.toFixed(2)}</span>
+              </header>
+              <p className="mt-2 text-sm text-black/70 dark:text-white/70">{item.description}</p>
+              <div className="mt-3 flex gap-2 text-[11px]">
+                {item.popular && <span className="rounded-full bg-red-600/10 text-red-700 dark:text-red-300 px-2 py-0.5">Popular</span>}
+                {item.spicy && <span className="rounded-full bg-orange-500/10 text-orange-700 dark:text-orange-300 px-2 py-0.5">Spicy</span>}
+                {item.vegetarian && <span className="rounded-full bg-green-600/10 text-green-700 dark:text-green-300 px-2 py-0.5">Veg</span>}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Hours & Location */}
+      <section id="hours" aria-labelledby="hours-heading" className="rounded-2xl border border-black/10 dark:border-white/15 p-6 sm:p-8">
+        <h2 id="hours-heading" className="text-2xl font-bold">Hours & Location</h2>
+        <div className="mt-4 grid gap-6 sm:grid-cols-3">
+          <div>
+            <div className="font-semibold">Visit us</div>
+            <p className="text-sm text-black/70 dark:text-white/70">123 Main St, YourCity, ST</p>
+            <a className="text-sm underline hover:no-underline" href="https://maps.google.com/?q=123+Main+St+YourCity" target="_blank" rel="noreferrer">Open in Maps</a>
+          </div>
+          <div>
+            <div className="font-semibold">Hours</div>
+            <ul className="text-sm text-black/70 dark:text-white/70 space-y-0.5">
+              <li>Mon–Thu: 11:00 AM – 9:00 PM</li>
+              <li>Fri–Sat: 11:00 AM – 10:00 PM</li>
+              <li>Sun: 12:00 PM – 8:00 PM</li>
+            </ul>
+          </div>
+          <div>
+            <div className="font-semibold">Contact</div>
+            <p className="text-sm">Call <a className="underline hover:no-underline" href="tel:555-123-4567">555-123-4567</a></p>
+            <p className="text-sm mt-1">Dine-in • Takeout • Curbside</p>
+          </div>
+        </div>
+      </section>
+
+      {/* About */}
+      <section aria-labelledby="about-heading" className="space-y-3">
+        <h2 id="about-heading" className="text-2xl font-bold">Our Story</h2>
+        <p className="text-black/75 dark:text-white/75 max-w-3xl">
+          We smash fresh beef on a blazing hot griddle for crunchy edges and juicy centers, then stack it on buttery potato buns with house-made sauces. Simple food done right—fast.
+        </p>
+      </section>
     </div>
   );
 }
